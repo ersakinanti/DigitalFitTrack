@@ -87,10 +87,48 @@
         th {
             background-color: #f2f2f2;
         }
+
+        /* Navigasi login/logout */
+        .nav-auth {
+            text-align: right;
+            margin-bottom: 20px;
+        }
+        .nav-auth a, .nav-auth form {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .nav-auth form {
+            display: inline;
+        }
+        .nav-auth button {
+            background-color: transparent;
+            border: none;
+            color: #007bff;
+            cursor: pointer;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
     <div class="container">
+        <header>
+            <nav class="nav-auth">
+                @auth
+                    <!-- Tampilkan jika user login -->
+                    <span>Welcome, {{ auth()->user()->name }}</span>
+                    <form action="{{ route('logout') }}" method="POST">
+                        @csrf
+                        <button type="submit">Logout</button>
+                    </form>
+                @else
+                    <!-- Tampilkan jika user belum login -->
+                    <a href="{{ route('login') }}">Login</a>
+                    <a href="{{ route('register') }}">Register</a>
+                @endauth
+            </nav>
+        </header>
+
         @yield('content')
     </div>
 </body>
